@@ -19,13 +19,15 @@ export class MovingSceneBg extends Component {
     // 背景板高度
     private _bgHeight: number = 100;  
 
-
     onLoad() {
         console.log('onLoad called，组件被加载时调用');
     }
 
     start() {
         console.log('start called，组件第一次激活时调用');
+        
+        // 初始化背景板
+        this._initBg();
     }
 
     update(deltaTime: number) {
@@ -47,6 +49,25 @@ export class MovingSceneBg extends Component {
 
     onDestroy() {
         console.log('onDestroy called，组件被销毁时调用');
+    }
+
+    // 初始化背景板
+    private _initBg() {
+        // 设置主背景位置
+        this._initBgMain();
+
+        // 设置辅背景位置
+        this._initBgSub();
+    }
+
+    // 设置主背景位置
+    private _initBgMain() {
+        this.bgMain.setPosition(this.bgMain.getPosition().x, this.bgMain.getPosition().y, 0);
+    }
+
+    // 设置辅背景位置
+    private _initBgSub() {
+        this.bgSub.setPosition(this.bgSub.getPosition().x, this.bgSub.getPosition().y, this._bgHeight);
     }
 
     // 背景移动
