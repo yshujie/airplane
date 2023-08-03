@@ -202,7 +202,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg-main",
+    "_name": "bg01",
     "_objFlags": 0,
     "_parent": {
       "__id__": 4
@@ -298,7 +298,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg-sub",
+    "_name": "bg02",
     "_objFlags": 0,
     "_parent": {
       "__id__": 4
@@ -315,7 +315,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 100
+      "z": -100
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -401,10 +401,10 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "bgMain": {
+    "bgNode01": {
       "__id__": 5
     },
-    "bgSub": {
+    "bgNode02": {
       "__id__": 8
     },
     "_id": "f1WfV9tn1Fc7Q0dH5E4xt0"

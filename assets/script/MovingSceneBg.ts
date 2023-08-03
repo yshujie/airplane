@@ -6,18 +6,19 @@ const { ccclass, property } = _decorator;
 // 组件类，继承自 Component
 export class MovingSceneBg extends Component {
 
-    // 主背景板
+    // 设置静态变量 视区长度
+    static _viewingAreaLength: number = 99;
+    // 设置静态变量 背景板移动速度
+    static _bgPanelSpeed: number = 10;
+    
     @property({type: Node})
-    public bgMain: Node = null;
+    public bgNode01: Node = null;
 
-    // 辅背景板
     @property({type: Node})
-    public bgSub: Node = null;
+    public bgNode02: Node = null;
 
-    // 背景移动速度
-    private _speed: number = 10;
-    // 背景板高度
-    private _bgHeight: number = 100;  
+    // 背景板数组
+    private bgPanelArray: BGPanel[] = [];
 
     onLoad() {
         console.log('onLoad called，组件被加载时调用');
@@ -27,12 +28,14 @@ export class MovingSceneBg extends Component {
         console.log('start called，组件第一次激活时调用');
         
         // 初始化背景板
-        this._initBg();
+        this._initBgPanel();
     }
 
     update(deltaTime: number) {
-        // 背景移动
-        this._moveBg(deltaTime);
+        // console.log('update called，每帧更新时调用');
+
+        // 移动背景板
+        this._moveBgPlane(deltaTime);
     }
 
     lateUpdate() {
@@ -52,81 +55,122 @@ export class MovingSceneBg extends Component {
     }
 
     // 初始化背景板
-    private _initBg() {
-        // 设置主背景位置
-        this._initBgMain();
+    private _initBgPanel() {
+        // 初始化主视区背景板
+        const bgPanel01 = new BGPanel(
+            this.bgNode01,
+            MovingSceneBg._bgPanelSpeed
+        );
+        this._moveToMainViewingArea(bgPanel01);
 
-        // 设置辅背景位置
-        this._initBgSub();
+        // 初始化辅视区背景板
+        const bgPanel02 = new BGPanel(
+            this.bgNode02,
+            MovingSceneBg._bgPanelSpeed
+        );
+        this._moveToSubViewingArea(bgPanel02);
+
+        // 将背景板添加到数组中
+        this.bgPanelArray.push(bgPanel01);
+        this.bgPanelArray.push(bgPanel02);
     }
 
-    // 设置主背景位置
-    private _initBgMain() {
-        this.bgMain.setPosition(this.bgMain.getPosition().x, this.bgMain.getPosition().y, 0);
+    // 初始化主视区背景板
+    // 引用传递
+    private _initMainViewingArea(bgPanel: BGPanel) {
+        // 设置主视区背景板位置
+        bgPanel.setPosition(0, 0, 0);
     }
 
-    // 设置辅背景位置
-    private _initBgSub() {
-        this.bgSub.setPosition(this.bgSub.getPosition().x, this.bgSub.getPosition().y, this._bgHeight);
+    // 初始化辅视区背景板位置 
+    private _initSubViewingArea(bgPanel: BGPanel) {
+        // 设置辅视区背景板位置
+        const z = 0 - MovingSceneBg._viewingAreaLength;
+        bgPanel.setPosition(0, 0, z);
     }
+    
+    // 移动背景板
+    private _moveBgPlane(deltaTime: number) {
+        // 遍历背景板数组
+        for (let i = 0; i < this.bgPanelArray.length; i++) {
+            // 获取背景板
+            const bgPanel = this.bgPanelArray[i];
 
-    // 背景移动
-    private _moveBg(deltaTime: number) {
-        this._moveBgMain(deltaTime);
-        this._moveBgSub(deltaTime);
+            // 背景板移动
+            bgPanel.move(deltaTime);
 
-        // 判断主背景是否超出范围
-        if (this._isBgMainOutOfRang()) {
-            // 替换主背景和辅背景
-            this._replaceBgMainAndSub();
+            // 判断背景板是否超出范围
+            if (bgPanel.isOutOfRang(MovingSceneBg._viewingAreaLength)) {
+                // 背景板移动到辅视区
+                this._moveToSubViewingArea(bgPanel);
+            }
         }
     }
 
-    // 主背景移动
-    private _moveBgMain(deltaTime: number) {
-        this._moveBgImp(this.bgMain, deltaTime);    
+    // 背景板移动到主视区
+    private _moveToMainViewingArea(bgPanel: BGPanel) {
+        bgPanel.setPosition(0, 0, 0);
     }
 
-    // 辅背景移动
-    private _moveBgSub(deltaTime: number) {
-        this._moveBgImp(this.bgSub, deltaTime);
+    // 背景板移动到辅视区
+    private _moveToSubViewingArea(bgPanel: BGPanel) {
+      // 设置辅视区背景板位置
+      const z = 0 - MovingSceneBg._viewingAreaLength;
+      bgPanel.setPosition(0, 0, z);
+    }
+}
+
+// 背景板
+class BGPanel {
+    // 背景板节点
+    private _node: Node = null;
+    // 背景板移动速度
+    private _speed: number = null;
+
+    // 构造函数
+    constructor(node: Node, speed: number) {
+        this._node = node;
+        this._speed = speed;
     }
 
-    // 背景移动实现
-    private _moveBgImp(bg: Node, deltaTime: number) {
+    // 获取背景板位置
+    public getPosition() {
+        return this._node.getPosition();
+    }
+
+    // 获取背景板移动速度
+    public getSpeed() {
+        return this._speed;
+    }
+
+    // 设置背景板位置
+    public setPosition(x: number, y: number, z: number) {
+        this._node.setPosition(x, y, z);
+    }
+
+    // 背景移动
+    public move(deltaTime: number) {
         // 获取当前背景板位置
-        var z = bg.getPosition().z;
+        var z = this._node.getPosition().z;
 
         // 计算新的背景板位置
-        // 计算规则：z = z - speed * deltaTime
-        z -= this._speed * deltaTime;
+        // 计算规则：z = z + speed * deltaTime
+        z += this._speed * deltaTime;
 
         // 设置新的背景板位置
-        bg.setPosition(bg.getPosition().x, bg.getPosition().y, z);
+        this._node.setPosition(this._node.getPosition().x, this._node.getPosition().y, z);
     }
 
-    // 判断主背景是否超出范围
-    private _isBgMainOutOfRang() {
-        // 获取主背景位置
-        var z = this.bgMain.getPosition().z;
+    // 判断背景是否超出范围
+    public isOutOfRang(width: number) {
+        // 获取背景位置
+        var z = this._node.getPosition().z;
 
-        // 判断主背景是否超出范围
-        if (z <= 0) {
+        // 判断背景是否超出范围
+        if (z >= width) {
             return true;
         }
 
         return false;
-    }
-
-    // 主副背景板替换位置
-    private _replaceBgMainAndSub() {
-        // 获取主背景位置
-        var z = this.bgMain.getPosition().z;
-
-        // 设置主背景位置
-        this.bgMain.setPosition(this.bgMain.getPosition().x, this.bgMain.getPosition().y, this._bgHeight);
-
-        // 设置辅背景位置
-        this.bgSub.setPosition(this.bgSub.getPosition().x, this.bgSub.getPosition().y, 0);
     }
 }
