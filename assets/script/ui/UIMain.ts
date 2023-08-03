@@ -1,19 +1,18 @@
-import { _decorator, Component, Touch, EventTouch, Node, systemEvent, SystemEvent } from 'cc';
+import { _decorator, Component, Node , Touch, EventTouch, systemEvent, SystemEvent } from 'cc';
 const { ccclass, property } = _decorator;
 
-@ccclass('SelfPlane')
-export class SelfPlane extends Component {
-
+@ccclass('UIM_ai_n')
+export class UIM_ai_n extends Component {
     // 飞机节点
     @property({type: Node})
-    public selfPlaneNode: Node = null;
+    public planeNode: Node = null;
 
     // 飞机移动速度
     @property({type: Number})
-    public speed: number = 5;
+    public planeSpeed: number = 5;
 
     start() {
-        this._initSelfPlane(this.selfPlaneNode, this.speed);
+        this._initSelfPlane(this.planeNode, this.planeSpeed);
     }
 
     // 初始化飞机
@@ -21,7 +20,7 @@ export class SelfPlane extends Component {
         const plane = new Plane(selfPlaneNode, speed);
 
         // 监听触摸移动事件
-        systemEvent.on(SystemEvent.EventType.TOUCH_MOVE, (touch: Touch, event: EventTouch) => {
+        this.node.on(SystemEvent.EventType.TOUCH_MOVE, (touch: Touch, event: EventTouch) => {
             // 获取触摸点的位置
             const delta = touch.getDelta();
             
