@@ -1,8 +1,8 @@
 import { _decorator, Component, Node , Touch, EventTouch, systemEvent, SystemEvent } from 'cc';
 const { ccclass, property } = _decorator;
 
-@ccclass('UIM_ai_n')
-export class UIM_ai_n extends Component {
+@ccclass('UIMain')
+export class UIMain extends Component {
     // 飞机节点
     @property({type: Node})
     public planeNode: Node = null;
