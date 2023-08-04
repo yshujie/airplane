@@ -91,9 +91,6 @@ class Plane {
         );
     }
 
-  
-        
-
     // 发射子弹
     public shoot() {
         if (!this._bulletPrefab) {
@@ -119,7 +116,4 @@ class Plane {
         // 将子弹节点添加到场景中
         director.getScene().addChild(bulletNode);
     }
-
-    
-
 }

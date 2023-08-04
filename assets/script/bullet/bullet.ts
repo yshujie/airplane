@@ -4,28 +4,45 @@ const { ccclass, property } = _decorator;
 @ccclass('bullet')
 export class bullet extends Component {
 
+    // 子弹移动速度
+    private _speed: number = 1;
 
-    update(deltaTime: number) {
-        this._bulletMove(deltaTime);
+    // 子弹对象
+    private _bullet: Bullet = null;
+
+    start() {
+        // 初始化子弹
+        this._initBullet(this.node);
     }
 
+    update(deltaTime: number) {
+        // 子弹移动
+        this._bulletMove(deltaTime);
+
+        // 判断子弹是否超出屏幕
+        if (this._bullet.isOutOfScreen()) {
+            // 销毁子弹
+            this._bullet.destroy();
+        }
+    }
+
+    // 初始化子弹
+    private _initBullet(bulletNode: Node) {
+        // 创建子弹对象
+        this._bullet = new Bullet(bulletNode, this._speed);
+    }
+
+    // 子弹移动
     private _bulletMove(deltaTime) {
-        const pos = this.node.getPosition();
-
-        const z = pos.z + deltaTime * 0.1;
-
-        this.node.setPosition(
-            this.node.getPosition().x,
-            this.node.getPosition().y,
-            z
-        );
+        // 子弹移动
+        this._bullet.move(deltaTime);
     }
 }
 
 class Bullet {
 
     private _bulletNode: Node = null;
-    private _speed: number = 0.5;
+    private _speed: number = 1;
 
     constructor(bulletNode: Node, speed: number) {
         this._bulletNode = bulletNode;
@@ -38,17 +55,26 @@ class Bullet {
     }
 
     // 移动子弹
-    public move(x: number, y: number, z: number) {
+    public move(deltaTime: number) {
+        // 获取子弹当前位置
+        var z = this._bulletNode.getPosition().z;
+
+        // 计算新的子弹位置
+        // 计算规则：z = z + speed * deltaTime
+        z -= this._speed * deltaTime * 100;
+
+        // 设置新的子弹位置
         this._bulletNode.setPosition(
-            this._bulletNode.getPosition().x + x * this._speed * 0.01,
-            this._bulletNode.getPosition().y + y * this._speed * 0.01,
-            this._bulletNode.getPosition().z + z * this._speed * 0.01
+            this._bulletNode.getPosition().x,
+            this._bulletNode.getPosition().y,
+            z
         );
     }
 
     // 销毁子弹
     public destroy() {
         this._bulletNode.destroy();
+        console.log("子弹销毁");
     }
 
     // 判断子弹是否超出屏幕
@@ -62,7 +88,4 @@ class Bullet {
 
         return false;
     }
-
-
-
 }
