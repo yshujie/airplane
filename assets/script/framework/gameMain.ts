@@ -1,4 +1,4 @@
-import { _decorator, Component } from 'cc';
+import { _decorator, Component, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('game_Main')
