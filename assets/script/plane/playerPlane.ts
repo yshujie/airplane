@@ -63,7 +63,7 @@ class Plane {
     // 上一次射击的时间戳
     private _lastShootTime: number = 0;
     // 射击频次
-    private _shootFrequency: number = 0.3;
+    private _shootFrequency: number = 0.2;
 
 
     constructor(planeNode: Node, speed: number, bulletPrefab: Prefab) {
@@ -111,7 +111,7 @@ class Plane {
 
         // 设置子弹节点的位置
         const planePos = this._planeNode.getPosition();
-        bulletNode.setPosition(planePos.x, planePos.y, planePos.z - 8);
+        bulletNode.setPosition(planePos.x, planePos.y, planePos.z + 10);
 
         // 将子弹节点添加到场景中
         director.getScene().addChild(bulletNode);
