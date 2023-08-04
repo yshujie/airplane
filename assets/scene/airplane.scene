@@ -36,7 +36,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 35
+      "__id__": 34
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -67,7 +67,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 38
+      "__id__": 37
     },
     "_id": "bdd1e052-150c-45e0-aa70-ef60c4411a34"
   },
@@ -753,13 +753,13 @@
     "_parent": {
       "__id__": 1
     },
-    "_children": [
+    "_children": [],
+    "_active": true,
+    "_components": [
       {
         "__id__": 33
       }
     ],
-    "_active": true,
-    "_components": [],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -791,61 +791,23 @@
     "_id": "44WfQxhelGKIEbpzv/um7m"
   },
   {
-    "__type__": "cc.Node",
-    "_name": "enemyPlane",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 32
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 34
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "7c1ZwgPiJNdK3pxmkarj8P"
-  },
-  {
     "__type__": "e28a6SqBJdBxa4FbCFLfcZU",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 33
+      "__id__": 32
     },
     "_enabled": true,
     "__prefab": null,
-    "locustPlanePrefab": null,
-    "beePlanePrefab": null,
-    "_id": "dc+2mbRzJA+ZRVJvLyBUQb"
+    "locustPlanePrefab": {
+      "__uuid__": "74874d54-57cf-4a92-841b-94a34627cb6a",
+      "__expectedType__": "cc.Prefab"
+    },
+    "beePlanePrefab": {
+      "__uuid__": "02e29de2-8157-4571-bc11-29d50c092c53",
+      "__expectedType__": "cc.Prefab"
+    },
+    "_id": "0cd4ZxSTdMSbYUvBoow05X"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -855,7 +817,7 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 36
+        "__id__": 35
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -877,7 +839,7 @@
       "__id__": 12
     },
     "targetInfo": {
-      "__id__": 37
+      "__id__": 36
     }
   },
   {
@@ -890,22 +852,22 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 39
+      "__id__": 38
     },
     "shadows": {
-      "__id__": 40
+      "__id__": 39
     },
     "_skybox": {
-      "__id__": 41
+      "__id__": 40
     },
     "fog": {
-      "__id__": 42
+      "__id__": 41
     },
     "octree": {
-      "__id__": 43
+      "__id__": 42
     },
     "lightProbeInfo": {
-      "__id__": 44
+      "__id__": 43
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
